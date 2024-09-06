@@ -15,6 +15,12 @@ public static class DependencyInjectionExtension {
     }
 
     private static void AddDataAccess(this IServiceCollection services, IConfiguration configuration) {
+        var isTestEnvironment = configuration.GetValue<bool>("IsTestEnvironment");
+
+        if (isTestEnvironment) {
+            return;
+        }
+
         var connectionString = configuration["ConnectionStrings:DefaultConnection"];
         var serverVersion = ServerVersion.AutoDetect(connectionString);
 
