@@ -6,6 +6,7 @@ namespace Blog.API.Controllers;
 
 public class UserController : BlogController {
     [HttpPost]
+    [Route("register")]
     public async Task<IActionResult> Register(
         [FromServices] IRegisterUserUseCase useCase,
         [FromBody] RegisterUserRequest request
@@ -16,16 +17,13 @@ public class UserController : BlogController {
     }
 
     [HttpPost]
+    [Route("login")]
     public async Task<IActionResult> Login() {
         return Ok();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> DisplayInfo() {
-        return Ok();
-    }
-
     [HttpDelete]
+    [Route("id")]
     public async Task<IActionResult> Delete() {
         return NoContent();
     }
