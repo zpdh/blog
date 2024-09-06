@@ -4,10 +4,10 @@ using System.Text.Json;
 namespace Tests.API;
 
 public class BlogClassFixture : IClassFixture<BlogWebApplicationFactory> {
-    private readonly HttpClient HttpClient;
+    private readonly HttpClient _httpClient;
 
     protected BlogClassFixture(BlogWebApplicationFactory factory) {
-        HttpClient = factory.CreateClient();
+        _httpClient = factory.CreateClient();
     }
 
     /// <summary>
@@ -28,7 +28,7 @@ public class BlogClassFixture : IClassFixture<BlogWebApplicationFactory> {
             request.Content = JsonContent.Create(content);
         }
 
-        return await HttpClient.SendAsync(request);
+        return await _httpClient.SendAsync(request);
     }
 
 

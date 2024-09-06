@@ -1,8 +1,8 @@
 ﻿namespace Blog.Domain.Communication.Requests.User;
 
 public class LoginUserRequest {
-    public required string Email { get; set; }
-    public required string Password { get; set; }
+    public string Email { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
 
     public LoginUserRequest() {
     }

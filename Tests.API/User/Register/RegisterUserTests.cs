@@ -7,7 +7,8 @@ using Tests.Utilities.Communication.Requests;
 
 namespace Tests.API.User.Register;
 
-public class RegisterUserTests(BlogWebApplicationFactory factory) : BlogClassFixture(factory) {
+public class RegisterUserTests(BlogWebApplicationFactory factory)
+    : BlogClassFixture(factory) {
     private readonly HttpMethod _method = HttpMethod.Post;
     private const string Endpoint = "api/user/register";
 
