@@ -5,6 +5,7 @@ namespace Blog.Application;
 
 public static class DependencyInjectionExtension {
     public static void AddApplicationLayer(this IServiceCollection services) {
+        services.AddUseCases();
     }
 
     private static void AddUseCases(this IServiceCollection services) {
