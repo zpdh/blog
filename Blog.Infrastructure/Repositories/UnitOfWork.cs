@@ -5,7 +5,7 @@ namespace Blog.Infrastructure.Repositories;
 
 public class UnitOfWork(DataContext context) : IUnitOfWork {
 
-    public async Task Commit() {
+    public async Task CommitAsync() {
         await context.SaveChangesAsync();
     }
 }

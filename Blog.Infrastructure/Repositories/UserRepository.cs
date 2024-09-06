@@ -6,8 +6,12 @@ using Microsoft.EntityFrameworkCore;
 namespace Blog.Infrastructure.Repositories;
 
 public class UserRepository(DataContext context) : IUserReadRepository, IUserWriteRepository {
-    public async Task<bool> UserExists(string email) {
+    public async Task<bool> UserExistsAsync(string email) {
         return await context.Users
             .AnyAsync(user => user.Email == email);
+    }
+
+    public async Task AddUserAsync(User user) {
+        await context.AddAsync(user);
     }
 }

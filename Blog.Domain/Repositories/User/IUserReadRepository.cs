@@ -1,5 +1,5 @@
 ﻿namespace Blog.Domain.Repositories.User;
 
 public interface IUserReadRepository {
-    public Task<bool> UserExists(string email);
+    public Task<bool> UserExistsAsync(string email);
 }
