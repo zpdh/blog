@@ -18,8 +18,8 @@ public static class UserMapper {
         return user;
     }
 
-    public static RegisterUserResponse MapToRegisterResponse(this Domain.Entities.User user) {
-        var response = new RegisterUserResponse(user.Username, user.Email);
+    public static RegisterUserResponse MapToRegisterResponse(this Domain.Entities.User user, string token) {
+        var response = new RegisterUserResponse(user.Username, user.Email, token);
 
         return response;
     }

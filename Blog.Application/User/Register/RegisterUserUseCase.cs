@@ -5,6 +5,7 @@ using Blog.Domain.Communication.Responses.User;
 using Blog.Domain.Repositories.UOW;
 using Blog.Domain.Repositories.User;
 using Blog.Domain.Security.Hashing;
+using Blog.Domain.Security.Tokens;
 using Blog.Exceptions.ExceptionMessages;
 using Blog.Exceptions.Exceptions;
 using FluentValidation.Results;
@@ -19,7 +20,8 @@ public class RegisterUserUseCase(
     IUserReadRepository readRepository,
     IUserWriteRepository writeRepository,
     IUnitOfWork unitOfWork,
-    IPasswordHasher hasher
+    IPasswordHasher hasher,
+    ITokenGenerator tokenGenerator
 ) : IRegisterUserUseCase {
     public async Task<RegisterUserResponse> ExecuteAsync(RegisterUserRequest request) {
         var user = request.MapToUser();
@@ -30,7 +32,9 @@ public class RegisterUserUseCase(
 
         await SaveUserAsync(user);
 
-        return user.MapToRegisterResponse();
+        var token = tokenGenerator.Generate(user.Id);
+
+        return user.MapToRegisterResponse(token);
     }
 
     private async Task ValidateUserAsync(Domain.Entities.User user) {
