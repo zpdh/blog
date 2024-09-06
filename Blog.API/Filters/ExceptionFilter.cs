@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using Blog.Domain.Responses;
+using Blog.Domain.Communication.Responses;
 using Blog.Exceptions.ExceptionMessages;
 using Blog.Exceptions.Exceptions;
 using Microsoft.AspNetCore.Mvc;

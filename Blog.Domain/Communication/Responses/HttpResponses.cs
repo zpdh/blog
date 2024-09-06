@@ -1,4 +1,4 @@
-﻿namespace Blog.Domain.Responses;
+﻿namespace Blog.Domain.Communication.Responses;
 
 public record ErrorResponse {
     public IList<string> ErrorMessages { get; set; }
