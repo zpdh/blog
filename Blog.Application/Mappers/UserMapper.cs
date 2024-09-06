@@ -1,5 +1,6 @@
-﻿using Blog.Domain.Communication.Requests.ClassRequests;
-using Blog.Domain.Communication.Responses.ClassResponses;
+﻿using Blog.Domain.Communication.Requests;
+using Blog.Domain.Communication.Requests.User;
+using Blog.Domain.Communication.Responses.User;
 
 namespace Blog.Application.Mappers;
 

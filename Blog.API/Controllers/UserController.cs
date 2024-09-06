@@ -1,5 +1,6 @@
 ﻿using Blog.Application.User.Register;
-using Blog.Domain.Communication.Requests.ClassRequests;
+using Blog.Domain.Communication.Requests;
+using Blog.Domain.Communication.Requests.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.API.Controllers;

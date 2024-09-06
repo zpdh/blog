@@ -1,6 +1,7 @@
 ﻿using Blog.Application.Mappers;
-using Blog.Domain.Communication.Requests.ClassRequests;
-using Blog.Domain.Communication.Responses.ClassResponses;
+using Blog.Domain.Communication.Requests;
+using Blog.Domain.Communication.Requests.User;
+using Blog.Domain.Communication.Responses.User;
 using Blog.Domain.Repositories.UOW;
 using Blog.Domain.Repositories.User;
 using Blog.Exceptions.ExceptionMessages;
