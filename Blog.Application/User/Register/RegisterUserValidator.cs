@@ -12,7 +12,7 @@ public class RegisterUserValidator : AbstractValidator<Domain.Entities.User> {
         When(user => user.Email.IsNotEmpty(), () =>
             RuleFor(user => user.Email).EmailAddress().WithMessage(ErrorMessages.InvalidEmail));
 
-        RuleFor(user => user.Password).NotEmpty().MinimumLength(6).WithMessage(ErrorMessages.InvalidPassword);
+        RuleFor(user => user.Password).MinimumLength(6).WithMessage(ErrorMessages.InvalidPassword);
 
     }
 }

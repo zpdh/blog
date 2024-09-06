@@ -1,12 +1,13 @@
 ﻿using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace Tests.API;
 
 public class BlogClassFixture : IClassFixture<BlogWebApplicationFactory> {
-    private readonly HttpClient _httpClient;
+    private readonly HttpClient HttpClient;
 
     protected BlogClassFixture(BlogWebApplicationFactory factory) {
-        _httpClient = factory.CreateClient();
+        HttpClient = factory.CreateClient();
     }
 
     /// <summary>
@@ -27,6 +28,14 @@ public class BlogClassFixture : IClassFixture<BlogWebApplicationFactory> {
             request.Content = JsonContent.Create(content);
         }
 
-        return await _httpClient.SendAsync(request);
+        return await HttpClient.SendAsync(request);
+    }
+
+
+    protected static async Task<JsonElement> ParseResponseAsync(HttpResponseMessage response) {
+        var jsonString = await response.Content.ReadAsStringAsync();
+        var content = JsonDocument.Parse(jsonString);
+
+        return content.RootElement;
     }
 }

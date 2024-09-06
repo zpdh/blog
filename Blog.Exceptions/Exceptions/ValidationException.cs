@@ -3,7 +3,6 @@
 namespace Blog.Exceptions.Exceptions;
 
 public class ValidationException(IList<string> messages) : BlogException(string.Empty) {
-
     public override IList<string> GetErrorMessage() {
         return messages;
     }
