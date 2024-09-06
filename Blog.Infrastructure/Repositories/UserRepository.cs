@@ -11,7 +11,14 @@ public class UserRepository(DataContext context) : IUserReadRepository, IUserWri
             .AnyAsync(user => user.Email == email);
     }
 
+    public async Task<User?> GetUserByEmailAsync(string email) {
+        return await context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(user => user.Email == email);
+    }
+
     public async Task AddUserAsync(User user) {
-        await context.AddAsync(user);
+        await context.Users
+            .AddAsync(user);
     }
 }

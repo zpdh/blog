@@ -1,7 +1,9 @@
 ﻿using Blog.Domain.Repositories.UOW;
 using Blog.Domain.Repositories.User;
+using Blog.Domain.Security.Hashing;
 using Blog.Infrastructure.DataAccess;
 using Blog.Infrastructure.Repositories;
+using Blog.Infrastructure.Security.Hashing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +14,7 @@ public static class DependencyInjectionExtension {
     public static void AddInfrastructureLayer(this IServiceCollection services, IConfiguration configuration) {
         services.AddDataAccess(configuration);
         services.AddRepositories();
+        services.AddHashing();
     }
 
     private static void AddDataAccess(this IServiceCollection services, IConfiguration configuration) {
@@ -32,5 +35,9 @@ public static class DependencyInjectionExtension {
 
         services.AddScoped<IUserReadRepository, UserRepository>();
         services.AddScoped<IUserWriteRepository, UserRepository>();
+    }
+
+    private static void AddHashing(this IServiceCollection serviceCollection) {
+        serviceCollection.AddScoped<IPasswordHasher, BCryptHasher>();
     }
 }

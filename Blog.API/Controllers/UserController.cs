@@ -1,4 +1,5 @@
-﻿using Blog.Application.User.Register;
+﻿using Blog.Application.User.Login;
+using Blog.Application.User.Register;
 using Blog.Domain.Communication.Requests;
 using Blog.Domain.Communication.Requests.User;
 using Blog.Domain.Communication.Responses;
@@ -23,7 +24,12 @@ public class UserController : BlogController {
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> Login() {
+    public async Task<IActionResult> Login(
+        [FromServices] ILoginUserUseCase useCase,
+        [FromBody] LoginUserRequest request
+    ) {
+        await useCase.Execute(request);
+
         return Ok();
     }
 }

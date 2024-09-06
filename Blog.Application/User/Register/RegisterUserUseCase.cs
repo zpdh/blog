@@ -4,6 +4,7 @@ using Blog.Domain.Communication.Requests.User;
 using Blog.Domain.Communication.Responses.User;
 using Blog.Domain.Repositories.UOW;
 using Blog.Domain.Repositories.User;
+using Blog.Domain.Security.Hashing;
 using Blog.Exceptions.ExceptionMessages;
 using Blog.Exceptions.Exceptions;
 using FluentValidation.Results;
@@ -17,21 +18,22 @@ public interface IRegisterUserUseCase {
 public class RegisterUserUseCase(
     IUserReadRepository readRepository,
     IUserWriteRepository writeRepository,
-    IUnitOfWork unitOfWork
+    IUnitOfWork unitOfWork,
+    IPasswordHasher hasher
 ) : IRegisterUserUseCase {
-
     public async Task<RegisterUserResponse> ExecuteAsync(RegisterUserRequest request) {
         var user = request.MapToUser();
 
-        await ValidateAsync(user);
+        await ValidateUserAsync(user);
 
-        await writeRepository.AddUserAsync(user);
-        await unitOfWork.CommitAsync();
+        user.Password = hasher.HashPassword(user.Password);
 
-        return user.MapToResponse();
+        await SaveUserAsync(user);
+
+        return user.MapToRegisterResponse();
     }
 
-    private async Task ValidateAsync(Domain.Entities.User user) {
+    private async Task ValidateUserAsync(Domain.Entities.User user) {
         var validator = new RegisterUserValidator();
         var result = await validator.ValidateAsync(user);
 
@@ -44,7 +46,12 @@ public class RegisterUserUseCase(
         if (!result.IsValid) {
             var errorMessages = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-            throw new ValidationException(errorMessages);
+            throw new BlogValidationException(errorMessages);
         }
+    }
+
+    private async Task SaveUserAsync(Domain.Entities.User user) {
+        await writeRepository.AddUserAsync(user);
+        await unitOfWork.CommitAsync();
     }
 }
