@@ -24,11 +24,9 @@ namespace Blog.Infrastructure.Migrations
 
             modelBuilder.Entity("Blog.Domain.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime(6)");
