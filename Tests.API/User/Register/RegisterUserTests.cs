@@ -23,6 +23,7 @@ public class RegisterUserTests(BlogWebApplicationFactory factory) : BlogClassFix
 
         responseContent.GetProperty("username").GetString().Should().Be(request.Username);
         responseContent.GetProperty("email").GetString().Should().Be(request.Email);
+        responseContent.GetProperty("token").GetString().Should().NotBeNullOrWhiteSpace();
     }
 
     [Fact]
