@@ -1,11 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Blog.Application.User.Register;
+using Blog.Domain.Communication.Requests.ClassRequests;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.API.Controllers;
 
 public class UserController : BlogController {
     [HttpPost]
-    public async Task<IActionResult> Register() {
-        return Created();
+    public async Task<IActionResult> Register(
+        [FromServices] IRegisterUserUseCase useCase,
+        [FromBody] RegisterUserRequest request
+    ) {
+        var result = await useCase.ExecuteAsync(request);
+
+        return Created(string.Empty, result);
     }
 
     [HttpPost]
