@@ -1,33 +1,33 @@
-﻿using Blog.Application.Mappers;
+﻿using System.Diagnostics.CodeAnalysis;
+using Blog.Application.Mappers;
 using Blog.Domain.Communication.Requests.User;
+using Blog.Domain.Communication.Responses.User;
 using Blog.Domain.Repositories.User;
 using Blog.Domain.Security.Hashing;
+using Blog.Domain.Security.Tokens;
 using Blog.Exceptions.ExceptionMessages;
 using Blog.Exceptions.Exceptions;
 
 namespace Blog.Application.User.Login;
 
 public interface ILoginUserUseCase {
-    public Task Execute(LoginUserRequest request);
+    public Task<LoginUserResponse> Execute(LoginUserRequest request);
 }
 
 public class LoginUserUseCase(
     IUserReadRepository readRepository,
-    IPasswordHasher hasher
+    IPasswordHasher hasher,
+    ITokenGenerator tokenGenerator
 ) : ILoginUserUseCase {
-
-
-    public async Task Execute(LoginUserRequest request) {
+    public async Task<LoginUserResponse> Execute(LoginUserRequest request) {
         var userInDb = await readRepository.GetUserByEmailAsync(request.Email);
 
-        ValidateRequest(request, userInDb);
-
-        userInDb.MapToLoginResponse();
-    }
-
-    private void ValidateRequest(LoginUserRequest request, Domain.Entities.User? user) {
-        if (user is null || !hasher.Verify(request.Password, user.Password)) {
+        if (userInDb is null || !hasher.Verify(request.Password, userInDb.Password)) {
             throw new BlogValidationException([ErrorMessages.InvalidPasswordOrEmail]);
         }
+
+        var token = tokenGenerator.Generate(userInDb.Id);
+
+        return userInDb.MapToLoginResponse(token);
     }
 }

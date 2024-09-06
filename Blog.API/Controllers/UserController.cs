@@ -28,8 +28,8 @@ public class UserController : BlogController {
         [FromServices] ILoginUserUseCase useCase,
         [FromBody] LoginUserRequest request
     ) {
-        await useCase.Execute(request);
+        var result = await useCase.Execute(request);
 
-        return Ok();
+        return Ok(result);
     }
 }

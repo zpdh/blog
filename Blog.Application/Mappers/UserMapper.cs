@@ -28,8 +28,10 @@ public static class UserMapper {
 
     #region Login Classes
 
-    public static void MapToLoginResponse(this Domain.Entities.User user) {
-        // TODO
+    public static LoginUserResponse MapToLoginResponse(this Domain.Entities.User user, string token) {
+        var response = new LoginUserResponse(user.Username, token);
+
+        return response;
     }
 
     #endregion
