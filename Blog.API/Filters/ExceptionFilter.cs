@@ -18,7 +18,7 @@ public class ExceptionFilter : IExceptionFilter {
 
     private static void HandleBlogException(ExceptionContext context, BlogException exception) {
         context.HttpContext.Response.StatusCode = (int)exception.GetStatusCode();
-        context.Result = new ObjectResult(new ErrorResponse(exception.GetErrorMessage()));
+        context.Result = new ObjectResult(new ErrorResponse(exception.GetErrorMessages()));
     }
 
     private static void HandleUnknownException(ExceptionContext context) {

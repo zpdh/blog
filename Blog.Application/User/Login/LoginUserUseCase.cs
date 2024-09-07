@@ -11,7 +11,7 @@ using Blog.Exceptions.Exceptions;
 namespace Blog.Application.User.Login;
 
 public interface ILoginUserUseCase {
-    public Task<LoginUserResponse> Execute(LoginUserRequest request);
+    public Task<LoginUserResponse> ExecuteAsync(LoginUserRequest request);
 }
 
 public class LoginUserUseCase(
@@ -19,7 +19,7 @@ public class LoginUserUseCase(
     IPasswordHasher hasher,
     ITokenGenerator tokenGenerator
 ) : ILoginUserUseCase {
-    public async Task<LoginUserResponse> Execute(LoginUserRequest request) {
+    public async Task<LoginUserResponse> ExecuteAsync(LoginUserRequest request) {
         var userInDb = await readRepository.GetUserByEmailAsync(request.Email);
 
         if (userInDb is null || !hasher.Verify(request.Password, userInDb.Password)) {
