@@ -1,4 +1,5 @@
-﻿using Blog.Domain.Repositories.User;
+﻿using Blog.Domain.Entities;
+using Blog.Domain.Repositories.User;
 using Moq;
 
 namespace Tests.Utilities.Repositories;
@@ -11,6 +12,12 @@ public class UserReadRepositoryMock {
     }
 
     public void UserExistsAsync(string email) {
-        _mock.Setup(repo => repo.UserExistsAsync(email)).ReturnsAsync(true);
+        _mock.Setup(repo => repo.UserExistsAsync(email))
+            .ReturnsAsync(true);
+    }
+
+    public void GetUserByEmailAsync(User user) {
+        _mock.Setup(repo => repo.GetUserByEmailAsync(user.Email))
+            .ReturnsAsync(user);
     }
 }
