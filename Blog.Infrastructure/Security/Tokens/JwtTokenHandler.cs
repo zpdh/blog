@@ -15,13 +15,12 @@ public class JwtTokenHandler(
             new(ClaimTypes.Sid, userId.ToString())
         };
 
-        var bytes = Encoding.UTF8.GetBytes(signingKey);
+        var securityKey = GetSecurityKey();
 
         var tokenDescriptor = new SecurityTokenDescriptor {
             Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddMinutes(expirationInMinutes),
-            SigningCredentials = new SigningCredentials(
-                new SymmetricSecurityKey(bytes), SecurityAlgorithms.HmacSha256Signature)
+            SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -31,7 +30,27 @@ public class JwtTokenHandler(
         return tokenHandler.WriteToken(token);
     }
 
+    private SymmetricSecurityKey GetSecurityKey() {
+
+        var bytes = Encoding.UTF8.GetBytes(signingKey);
+
+        return new SymmetricSecurityKey(bytes);
+    }
+
     public Guid ValidateAndGetUserId(string token) {
-        throw new NotImplementedException();
+        var validationParameters = new TokenValidationParameters {
+            ValidateAudience = false,
+            ValidateIssuer = false,
+            IssuerSigningKey = GetSecurityKey(),
+            ClockSkew = TimeSpan.Zero
+        };
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+
+        var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
+
+        var userId = principal.Claims.First(claim => claim.Type == ClaimTypes.Sid).Value;
+
+        return Guid.Parse(userId);
     }
 }

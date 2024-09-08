@@ -24,6 +24,8 @@ public class UserController : BlogController {
 
     [HttpPost]
     [Route("login")]
+    [ProducesResponseType(typeof(LoginUserResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Login(
         [FromServices] ILoginUserUseCase useCase,
         [FromBody] LoginUserRequest request

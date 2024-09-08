@@ -6,9 +6,14 @@ using Microsoft.EntityFrameworkCore;
 namespace Blog.Infrastructure.Repositories;
 
 public class UserRepository(DataContext context) : IUserReadRepository, IUserWriteRepository {
-    public async Task<bool> UserExistsAsync(string email) {
+    public async Task<bool> UserWithEmailExistsAsync(string email) {
         return await context.Users
             .AnyAsync(user => user.Email == email);
+    }
+
+    public async Task<bool> UserWithIdExistsAsync(Guid userId) {
+        return await context.Users
+            .AnyAsync(user => user.Id == userId);
     }
 
     public async Task<User?> GetUserByEmailAsync(string email) {

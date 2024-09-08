@@ -41,7 +41,7 @@ public class RegisterUserUseCase(
         var validator = new RegisterUserValidator();
         var result = await validator.ValidateAsync(user);
 
-        var exists = await readRepository.UserExistsAsync(user.Email);
+        var exists = await readRepository.UserWithEmailExistsAsync(user.Email);
 
         if (exists) {
             result.Errors.Add(new ValidationFailure(string.Empty, ErrorMessages.EmailExists));

@@ -22,6 +22,37 @@ namespace Blog.Infrastructure.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("Blog.Domain.Entities.Post", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("PostOwnerId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("TextContent")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostOwnerId");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("Blog.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -46,6 +77,17 @@ namespace Blog.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Blog.Domain.Entities.Post", b =>
+                {
+                    b.HasOne("Blog.Domain.Entities.User", "PostOwner")
+                        .WithMany()
+                        .HasForeignKey("PostOwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PostOwner");
                 });
 #pragma warning restore 612, 618
         }

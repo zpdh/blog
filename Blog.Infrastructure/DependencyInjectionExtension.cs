@@ -1,11 +1,14 @@
-﻿using Blog.Domain.Repositories.UOW;
+﻿using Blog.Domain.Repositories.Post;
+using Blog.Domain.Repositories.UOW;
 using Blog.Domain.Repositories.User;
 using Blog.Domain.Security.Hashing;
 using Blog.Domain.Security.Tokens;
+using Blog.Domain.Services;
 using Blog.Infrastructure.DataAccess;
 using Blog.Infrastructure.Repositories;
 using Blog.Infrastructure.Security.Hashing;
 using Blog.Infrastructure.Security.Tokens;
+using Blog.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +21,7 @@ public static class DependencyInjectionExtension {
         services.AddRepositories();
         services.AddHashing();
         services.AddTokenHandler(configuration);
+        services.AddServices();
     }
 
     private static void AddDataAccess(this IServiceCollection services, IConfiguration configuration) {
@@ -38,6 +42,9 @@ public static class DependencyInjectionExtension {
 
         services.AddScoped<IUserReadRepository, UserRepository>();
         services.AddScoped<IUserWriteRepository, UserRepository>();
+
+        services.AddScoped<IPostReadRepository, PostRepository>();
+        services.AddScoped<IPostWriteRepository, PostRepository>();
     }
 
     private static void AddHashing(this IServiceCollection services) {
@@ -52,5 +59,9 @@ public static class DependencyInjectionExtension {
 
         services.AddScoped<ITokenGenerator>(_ => tokenHandler);
         services.AddScoped<ITokenValidator>(_ => tokenHandler);
+    }
+
+    private static void AddServices(this IServiceCollection services) {
+        services.AddScoped<IUserTokenService, UserTokenService>();
     }
 }

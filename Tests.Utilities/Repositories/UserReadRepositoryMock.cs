@@ -12,7 +12,7 @@ public class UserReadRepositoryMock {
     }
 
     public void UserExistsAsync(string email) {
-        _mock.Setup(repo => repo.UserExistsAsync(email))
+        _mock.Setup(repo => repo.UserWithEmailExistsAsync(email))
             .ReturnsAsync(true);
     }
 
