@@ -2,4 +2,6 @@
 
 public abstract class ExceptionMessages {
     public const string UnknownException = "An unknown exception occurred.";
+    public const string AuthenticationException = "No token was found.";
+    public const string NoPermissionsException = "You do not have permission to access this.";
 }
