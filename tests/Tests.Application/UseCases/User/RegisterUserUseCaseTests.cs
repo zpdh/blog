@@ -7,7 +7,7 @@ using Tests.Utilities.Communication.Requests;
 using Tests.Utilities.Repositories;
 using Tests.Utilities.Services;
 
-namespace Tests.Application.UseCases;
+namespace Tests.Application.UseCases.User;
 
 public class RegisterUserUseCaseTests {
     [Fact]

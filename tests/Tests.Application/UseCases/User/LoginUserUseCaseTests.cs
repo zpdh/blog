@@ -1,6 +1,5 @@
 ﻿using Blog.Application.User.Login;
 using Blog.Domain.Communication.Requests.User;
-using Blog.Domain.Entities;
 using Blog.Exceptions.ExceptionMessages;
 using Blog.Exceptions.Exceptions;
 using FluentAssertions;
@@ -8,7 +7,7 @@ using Tests.Utilities.Entities;
 using Tests.Utilities.Repositories;
 using Tests.Utilities.Services;
 
-namespace Tests.Application.UseCases;
+namespace Tests.Application.UseCases.User;
 
 public class LoginUserUseCaseTests {
     [Fact]
@@ -49,7 +48,7 @@ public class LoginUserUseCaseTests {
                              e.GetErrorMessages().Contains(ErrorMessages.InvalidPasswordOrEmail));
     }
 
-    private static LoginUserUseCase CreateUseCase(User? user = null) {
+    private static LoginUserUseCase CreateUseCase(Blog.Domain.Entities.User? user = null) {
         var readRepo = new UserReadRepositoryMock();
         var hasher = PasswordHasherBuilder.Build();
         var tokenGenerator = TokenGeneratorBuilder.Build();
