@@ -1,4 +1,5 @@
-﻿using Blog.Application.User.Login;
+﻿using Blog.Application.User.Get;
+using Blog.Application.User.Login;
 using Blog.Application.User.Register;
 using Blog.Domain.Communication.Requests;
 using Blog.Domain.Communication.Requests.User;
@@ -9,6 +10,21 @@ using Microsoft.AspNetCore.Mvc;
 namespace Blog.API.Controllers;
 
 public class UserController : BlogController {
+    [HttpGet]
+    [Route("get/{id:guid}")]
+    [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Get(
+        [FromServices] IGetUserUseCase useCase,
+        [FromRoute] Guid id
+    ) {
+        var request = new GetUserRequest(id);
+
+        var user = await useCase.Execute(request);
+
+        return Ok(user);
+    }
+
     [HttpPost]
     [Route("register")]
     [ProducesResponseType(typeof(RegisterUserResponse), StatusCodes.Status201Created)]
