@@ -36,4 +36,14 @@ public static class UserMapper {
 
     #endregion
 
+    #region Get Classes
+
+    public static GetUserResponse MapToGetResponse(this Domain.Entities.User user) {
+        var response = new GetUserResponse(user.Username, user.Email);
+
+        return response;
+    }
+
+    #endregion
+
 }
