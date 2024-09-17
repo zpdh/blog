@@ -22,6 +22,11 @@ public class UserRepository(DataContext context) : IUserReadRepository, IUserWri
             .FirstOrDefaultAsync(user => user.Email == email);
     }
 
+    public async Task<User?> GetUserByIdAsync(Guid id) {
+        return await context.Users
+            .FirstOrDefaultAsync(user => user.Id == id);
+    }
+
     public async Task AddUserAsync(User user) {
         await context.Users
             .AddAsync(user);

@@ -1,5 +1,6 @@
 ﻿using Blog.Application.Post;
 using Blog.Application.Services.Code;
+using Blog.Application.User.Get;
 using Blog.Application.User.Login;
 using Blog.Application.User.Register;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,7 @@ public static class DependencyInjectionExtension {
     private static void AddUseCases(this IServiceCollection services) {
         services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
         services.AddScoped<ILoginUserUseCase, LoginUserUseCase>();
+        services.AddScoped<IGetUserUseCase, GetUserUseCase>();
 
         services.AddScoped<ICreatePostUseCase, CreatePostUseCase>();
     }
