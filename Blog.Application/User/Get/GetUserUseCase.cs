@@ -13,7 +13,6 @@ public interface IGetUserUseCase {
 }
 
 public class GetUserUseCase(
-    IUserReadRepository readRepository,
     IUserTokenService userTokenService
 ) : IGetUserUseCase {
     public async Task<GetUserResponse> Execute() {
