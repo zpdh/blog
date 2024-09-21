@@ -31,4 +31,8 @@ public class UserRepository(DataContext context) : IUserReadRepository, IUserWri
         await context.Users
             .AddAsync(user);
     }
+
+    public void UpdateUser(User user) {
+        context.Users.Update(user);
+    }
 }

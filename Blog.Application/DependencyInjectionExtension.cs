@@ -1,5 +1,6 @@
 ﻿using Blog.Application.Post;
 using Blog.Application.Services.Code;
+using Blog.Application.User.ChangeName;
 using Blog.Application.User.Get;
 using Blog.Application.User.Login;
 using Blog.Application.User.Register;
@@ -17,6 +18,7 @@ public static class DependencyInjectionExtension {
         services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
         services.AddScoped<ILoginUserUseCase, LoginUserUseCase>();
         services.AddScoped<IGetUserUseCase, GetUserUseCase>();
+        services.AddScoped<IChangeUserNameUseCase, ChangeUserNameUseCase>();
 
         services.AddScoped<ICreatePostUseCase, CreatePostUseCase>();
     }

@@ -1,4 +1,5 @@
 ﻿using Blog.API.Attributes;
+using Blog.Application.User.ChangeName;
 using Blog.Application.User.Get;
 using Blog.Application.User.Login;
 using Blog.Application.User.Register;
@@ -11,19 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Blog.API.Controllers;
 
 public class UserController : BlogController {
-    [HttpGet]
-    [Route("get")]
-    [AuthenticatedUser]
-    [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Get(
-        [FromServices] IGetUserUseCase useCase
-    ) {
-        var user = await useCase.Execute();
-
-        return Ok(user);
-    }
-
     [HttpPost]
     [Route("register")]
     [ProducesResponseType(typeof(RegisterUserResponse), StatusCodes.Status201Created)]
@@ -48,5 +36,32 @@ public class UserController : BlogController {
         var result = await useCase.ExecuteAsync(request);
 
         return Ok(result);
+    }
+
+    [HttpGet]
+    [Route("get")]
+    [AuthenticatedUser]
+    [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Get(
+        [FromServices] IGetUserUseCase useCase
+    ) {
+        var user = await useCase.Execute();
+
+        return Ok(user);
+    }
+
+    [HttpPut]
+    [AuthenticatedUser]
+    [Route("change/username")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> ChangeUsername(
+        [FromServices] IChangeUserNameUseCase useCase,
+        [FromBody] ChangeUsernameUserRequest request
+    ) {
+        await useCase.Execute(request);
+
+        return NoContent();
     }
 }
