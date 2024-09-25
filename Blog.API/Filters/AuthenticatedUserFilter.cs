@@ -37,7 +37,7 @@ public class AuthenticatedUserFilter(
         var authorizationHeaders = context.HttpContext.Request.Headers.Authorization.ToString();
 
         if (string.IsNullOrWhiteSpace(authorizationHeaders)) {
-            throw new BlogAuthenticationException(ExceptionMessages.AuthenticationException);
+            throw new BlogAuthenticationException(ExceptionMessages.NoTokenException);
         }
 
         // Get token from authorization headers

@@ -67,7 +67,7 @@ public class CreatePostTest : BlogClassFixture {
             .Should()
             .ContainSingle()
             .And
-            .Contain(error => error.GetString() == ExceptionMessages.AuthenticationException);
+            .Contain(error => error.GetString() == ExceptionMessages.NoTokenException);
     }
 
     [Fact]

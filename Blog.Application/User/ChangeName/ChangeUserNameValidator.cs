@@ -6,6 +6,6 @@ namespace Blog.Application.User.ChangeName;
 
 public class ChangeUserNameValidator : AbstractValidator<ChangeUsernameUserRequest> {
     public ChangeUserNameValidator() {
-        RuleFor(u => u.NewName).NotNull().WithMessage(ErrorMessages.EmptyUsername);
+        RuleFor(u => u.NewName).NotEmpty().WithMessage(ErrorMessages.EmptyUsername);
     }
 }
